@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f7fa;
+    text-align: center;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    background: white;
+    width: 400px;
+    margin: auto;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+h1 {
+    color: #2c3e50;
+}
+
+input, select {
+    width: 90%;
+    padding: 8px;
+    margin: 8px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+button {
+    background: #007BFF;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background: #0056b3;
+}
+
+.result-box {
+    background: #eaf6ff;
+    padding: 15px;
+    margin-top: 15px;
+    border-radius: 6px;
+}
+
+footer {
+    margin-top: 20px;
+    font-size: 12px;
+    color: gray;
+}
+</style>
+<title>FormOpt AI</title>
+<p>AI-based system to optimize formwork inventory and reduce construction cost</p>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<div class="container">
+<h1>FormOpt AI</h1>
+<p>Smart Formwork Optimization System</p>
+
+<label>Floor Area (sq.m)</label><br>
+<input id="area" type="number" placeholder="Enter floor area"><br>
+
+<label>Number of Floors</label><br>
+<input id="floors" type="number" placeholder="Enter floors"><br>
+
+<label>Cost per sq.m (₹)</label><br>
+<input id="cost" type="number" placeholder="Enter cost"><br>
+
+<label>Select Formwork Type</label><br>
+<select id="reuse">
+<option value="10">Timber (Reuse 10)</option>
+<option value="50">Steel (Reuse 50)</option>
+<option value="150">Aluminum (Reuse 150)</option>
+</select><br><br>
+<option value="10">Timber (10)</option>
+<option value="50">Steel (50)</option>
+<option value="150">Aluminum (150)</option>
+</select><br><br>
+
+<button onclick="calculate()">Optimize</button>
+
+<h3 id="result"></h3>
+<canvas id="chart" width="400" height="200"></canvas>
+
+<script>
+function calculate(){
+let area = document.getElementById("area").value;
+let floors = document.getElementById("floors").value;
+let cost = document.getElementById("cost").value;
+let reuse = document.getElementById("reuse").value;
+
+let totalArea = area * floors;
+let inventory = totalArea / reuse;
+
+let optimizedCost = inventory * cost;
+let normalCost = totalArea * cost;
+let saving = normalCost - optimizedCost;
+
+document.getElementById("result").innerHTML =
+"Required Inventory: " + inventory.toFixed(2) +
+"<br>Cost without optimization: ₹" + normalCost.toFixed(0) +
+"<br>Optimized Cost: ₹" + optimizedCost.toFixed(0) +
+"<br>Saving: ₹" + saving.toFixed(0);
+
+new Chart(document.getElementById("chart"), {
+type: 'bar',
+data: {
+labels: ["Without Optimization", "Optimized"],
+datasets: [{
+data: [normalCost, optimizedCost]
+}]
+}
+});
+}
+</script>
+</body>
+</html>
